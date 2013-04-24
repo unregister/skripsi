@@ -22,7 +22,7 @@ class Potensi extends Controller
 	{
 		if( isset($_POST['save_data']) )
 		{
-			$this->form_validation->set_rules('nama','Nama potensi','trim|required|alpha');
+			$this->form_validation->set_rules('nama','Nama potensi','trim|required');
 			
 			if( $this->form_validation->run() == false )
 			{
@@ -73,7 +73,7 @@ class Potensi extends Controller
 		
 		if( isset($_POST['save_data']) )
 		{
-			$this->form_validation->set_rules('nama','Nama potensi','trim|required|alpha');
+			$this->form_validation->set_rules('nama','Nama potensi','trim|required');
 			
 			if( $this->form_validation->run() == false )
 			{

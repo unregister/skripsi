@@ -1,3 +1,14 @@
+<?php
+if( isset($hide_map) and $hide_map == true )
+{
+?>
+	<div class="alert alert-error">
+       <a href="#" data-dismiss="alert" class="close">×</a>
+       Data yang Anda cari tidak ditemukan
+    </div>
+<?php
+}else{
+?>
 <div id="map_canvas" class="subset" style="padding-top:30px; height:500px; border:1px solid #666"></div>
 <script type="text/javascript" src="<?php echo site_url('home/jsmap');?>"></script>
 <script type="text/javascript" language="javascript">
@@ -58,3 +69,6 @@ var base_url = '<?php echo template_url(); ?>';
      // google.maps.event.addDomListener(window, 'load', initialize);
 	
 </script>
+<?php
+}
+?>

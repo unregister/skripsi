@@ -52,10 +52,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body id="dashboard" class="hidden">
 <!-- Top navigation bar -->
-<div class="navbar navbar-fixed-top">
+<div class="navbar logo"></div>
+<div class="navbar">
   <div class="navbar-inner">
     <div class="container-fluid">
-      <a class="brand" href="<?php echo base_url(); ?>">Peta potensi</a>
+
       
       
       
@@ -68,8 +69,11 @@
       
 		<div class="nav-collapse">
         <ul class="nav">
+          <li><a  href="<?php echo site_url();?>">
+                      Beranda
+                </a></li>
           <li class="dropdown">
-              <a data-toggle="dropdown" class="dropdown-toggle" href="#">Grafik<b class="caret"></b></a>
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#">Grafik Statistik Demografi Kecamatan <b class="caret"></b></a>
               <?php
 			  $kecamatan = get_kecamatan();
 			  ?>
@@ -78,7 +82,7 @@
 			  foreach((array)$kecamatan as $kec)
 			  {
 			  ?>
-                  <li><a href="<?php echo site_url('home/grafik/'.$kec['kecamatan_id']); ?>"><?php echo $kec['kecamatan_name'];?></a></li>
+                  <li><a href="<?php echo site_url('home/grafik/'.$kec['kecamatan_id']); ?>">Kecamatan <?php echo $kec['kecamatan_name'];?></a></li>
            	  <?php
 			  }
 			  ?>
@@ -98,7 +102,7 @@
           </li> -->
           <li class="dropdown">
                 <a  class="dropdown-toggle" href="<?php echo site_url('home/grafik');?>">
-                      Semua Grafik
+                      Grafik Statistik Demografi Kabupaten 
                 </a>
                
           </li>

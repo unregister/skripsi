@@ -328,3 +328,9 @@ h6 {
     color: #999999;
     text-transform: uppercase;
 }
+
+div.logo {
+	height:113px;
+	background: url(../images/bg.png) no-repeat;
+	margin: 0px !important;	
+}

@@ -27,7 +27,10 @@ class Home extends Controller {
 		}
 		
 		//pr($kecamatan);
-		
+		if( count($kecamatan) < 1 ){
+			$data['nosidebar'] = true;
+			$data['hide_map'] = true;
+		}
 		$data['kecamatans'] = $kecamatan;	
 		$data['sidebar'] = 'layout_left.php';
 		$this->load->view('public/layout_main',$data);

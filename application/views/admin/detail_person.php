@@ -53,7 +53,11 @@
         <label for="focusedInput" class="control-label">Penyandang cacat</label>
         <div class="controls">
         <?php 
+			if( $result['id_penyandangcacat'] > 0 ){
 			echo $penyandangcacat[$result['id_penyandangcacat']];
+			}else{
+			echo 'Bukan penyandang cacat';
+			}
 		?>
         </div>
       </div>
@@ -268,7 +272,7 @@
         <?php 
 			$status = array('1' => 'Aktif','0'=>'Tidak aktif');
 			echo $status[$result['person_status']];
-		?> Aktif
+		?> 
         </div>
       </div>
       

@@ -22,7 +22,7 @@ class Person extends Controller
 	{
 		if( isset($_POST['save_data']) )
 		{
-			$this->form_validation->set_rules('nourut','Nomor urut','trim|required');
+			$this->form_validation->set_rules('nourut','Nomor urut','trim|required|numeric');
 			$this->form_validation->set_rules('nama','Nama person','trim|required|alpha');
 			$this->form_validation->set_rules('kecamatan','Kecamatan','trim|required');
 			$this->form_validation->set_rules('agama','Agama','trim|required');
@@ -131,7 +131,7 @@ class Person extends Controller
 		
 		if( isset($_POST['save_data']) )
 		{
-			$this->form_validation->set_rules('nourut','Nomor urut','trim|required');
+			$this->form_validation->set_rules('nourut','Nomor urut','trim|required|numeric');
 			$this->form_validation->set_rules('nama','Nama person','trim|required|alpha');
 			$this->form_validation->set_rules('kecamatan','Kecamatan','trim|required');
 			$this->form_validation->set_rules('agama','Agama','trim|required');

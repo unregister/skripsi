@@ -375,6 +375,7 @@ class Home extends Controller {
 			
 			$tmp  = "Nama kecamatan : ".$row['kecamatan_name']."<br>";
 			$tmp .= "Jumlah penduduk : ".jumlah_penduduk($kecamatan_id)." jiwa <br>";
+			$tmp .= "Luas wilayah : ".$row['kecamatan_luas']." Km <br>";
 			$tmp .= "Kepadatan penduduk : ".ceil($kepadatan)." jiwa/Km <br>";
 			$tmp .= "<a href=\"".site_url('home/data_wilayah/'.$kecamatan_id)."\">Lihat data</a>";
 			

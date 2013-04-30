@@ -20,7 +20,7 @@ class User extends Controller
 	
 	function add()
 	{
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('username','Username','trim|required|callback__cek_username');
 			$this->form_validation->set_rules('password','Password','trim|required');
@@ -31,6 +31,13 @@ class User extends Controller
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/user/add') );
 				exit();	
@@ -44,6 +51,12 @@ class User extends Controller
 				$arr['admin_status'] = (int)$this->input->post('status');
 				$save = $this->user_model->save_data( $arr );	
 				if($save){
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/user/add') );
 					exit();
@@ -63,7 +76,7 @@ class User extends Controller
 	{
 		$id = $this->uri->segment(4,0);
 		
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('username','Username','trim|required');
 			$this->form_validation->set_rules('group_id','Grup','trim|required');
@@ -73,6 +86,13 @@ class User extends Controller
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/user/edit/'.$id) );
 				exit();	
@@ -88,6 +108,12 @@ class User extends Controller
 				$arr['admin_status'] = (int)$this->input->post('status');
 				$save = $this->user_model->save_data( $arr,$id );	
 				if($save){
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/user/edit/'.$id) );
 					exit();
@@ -108,6 +134,13 @@ class User extends Controller
 		$delete = $this->user_model->delete($id);
 		if($delete)
 		{
+			if( $_POST['ajax'] == '1' )
+			{
+				$msg['status'] = 1;
+				$msg['msg'] = success('Data berhasil dihapus');
+				echo json_encode($msg);
+				die();
+			}
 			$this->session->set_flashdata('_msg',success('Data berhasil dihapus'));
 			redirect( site_url('admin/user') );
 			exit();
@@ -156,7 +189,7 @@ class User extends Controller
 	
 	function password()
 	{
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('old_password','Password lama','trim|required|callback__cekpass');
 			$this->form_validation->set_rules('new_password','Password baru','trim|required');
@@ -167,6 +200,13 @@ class User extends Controller
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/user/password') );
 				exit();	
@@ -176,6 +216,12 @@ class User extends Controller
 				$password = md5($this->input->post('new_password'));
 				$save = $this->user_model->change_password( $password );	
 				if($save){
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
 					$this->session->set_flashdata('_msg',success('Password berhasil diubah'));
 					redirect( site_url('admin/user/password') );
 					exit();

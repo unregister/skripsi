@@ -22,7 +22,7 @@ foreach((array)$result as $row)
         <td><?php echo $row['pekerjaan_nama'];?></td>
         <td><?php echo ($row['pekerjaan_status'] == 1 )?'Aktif':'Tidak aktif';?></td>
         <td class="actions">
-            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/pekerjaan/delete/'.$row['id_pekerjaan']);?>" onclick="<?php echo confirm('Yakin mau hapus data ini?');?>">Hapus</a>
+            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/pekerjaan/delete/'.$row['id_pekerjaan']);?>" onclick="">Hapus</a>
             <a class="btn btn-small btn-primary" href="<?php echo site_url('admin/pekerjaan/edit/'.$row['id_pekerjaan']);?>">Ubah</a>
         </td>
     </tr>

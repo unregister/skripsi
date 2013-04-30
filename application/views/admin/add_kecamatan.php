@@ -5,6 +5,7 @@
     </div>
 	
    <?php show_message();?>
+   
     
     <?php echo form_open( site_url('admin/kecamatan/add'), array('class' => 'form-horizontal') );?>
     <fieldset>

@@ -20,12 +20,20 @@ class Group extends Controller
 	
 	function add()
 	{
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('nama','Nama','trim|required');
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
+				
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/group/add') );
 				exit();	
@@ -36,6 +44,12 @@ class Group extends Controller
 				$arr['id_kecamatan'] = $this->input->post('kecamatan');
 				$save = $this->group_model->save_data( $arr );	
 				if($save){
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/group/add') );
 					exit();
@@ -60,12 +74,20 @@ class Group extends Controller
 	{
 		$id = $this->uri->segment(4,0);
 		
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('nama','Nama','trim|required');
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/group/edit/'.$id) );
 				exit();	
@@ -77,6 +99,12 @@ class Group extends Controller
 
 				$save = $this->group_model->save_data( $arr,$id );	
 				if($save){
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/group/edit/'.$id) );
 					exit();
@@ -105,6 +133,13 @@ class Group extends Controller
 		$delete = $this->group_model->delete($id);
 		if($delete)
 		{
+			if( $_POST['ajax'] == '1' )
+			{
+				$msg['status'] = 1;
+				$msg['msg'] = success('Data berhasil dihapus');
+				echo json_encode($msg);
+				die();
+			}
 			$this->session->set_flashdata('_msg',success('Data berhasil dihapus'));
 			redirect( site_url('admin/group') );
 			exit();
@@ -125,7 +160,7 @@ class Group extends Controller
 			$rowmenu[$ro['id_menu']] = $ro['id_menu'];
 		}
 
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			if( isset($_POST['access']) and count($_POST['access']) > 0 )
 			{
@@ -139,6 +174,13 @@ class Group extends Controller
 				}
 			}
 			
+			$msg = array();
+			if( $_POST['ajax'] == '1' )
+			{
+				$msg['msg'] = error(validation_errors());
+				echo json_encode($msg);
+				die();
+			}
 			$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 			redirect( site_url('admin/group/access/'.$group_id) );
 		}

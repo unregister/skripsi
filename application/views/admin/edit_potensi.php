@@ -59,7 +59,7 @@
         <label for="focusedInput" class="control-label">&nbsp;</label>
         <div class="controls">
         <?php 
-			$submit = array('name' => 'save_data', 'class' => 'btn btn-info','value' => 'Simpan');
+			$submit = array('name' => 'save_data', 'class' => 'btn btn-info1','value' => 'Simpan');
 			echo form_submit($submit);
 		?>
         </div>

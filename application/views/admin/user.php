@@ -26,7 +26,7 @@ foreach((array)$result as $row)
         <td><?php echo $row['nama_group'];?></td>
         <td><?php echo ($row['admin_status'] == 1 )?'Aktif':'Tidak aktif';?></td>
         <td class="actions">
-            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/user/delete/'.$row['id_admin']);?>" onclick="<?php echo confirm('Yakin mau hapus data ini?');?>">Hapus</a>
+            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/user/delete/'.$row['id_admin']);?>" onclick="">Hapus</a>
             <a class="btn btn-small btn-primary" href="<?php echo site_url('admin/user/edit/'.$row['id_admin']);?>">Ubah</a>
         </td>
     </tr>

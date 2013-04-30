@@ -9,6 +9,7 @@ if( isset($hide_map) and $hide_map == true )
 <?php
 }else{
 ?>
+<h1>Peta Kabupaten Klaten</h1>
 <div id="map_canvas" class="subset" style="padding-top:30px; height:500px; border:1px solid #666"></div>
 <script type="text/javascript" src="<?php echo site_url('home/jsmap');?>"></script>
 <script type="text/javascript" language="javascript">

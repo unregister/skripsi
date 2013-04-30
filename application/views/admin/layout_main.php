@@ -19,11 +19,15 @@
     <script src="<?php echo admin_template_url();?>js/excanvas.min.js"></script>
     <script src="<?php echo admin_template_url();?>js/jquery.flot.min.js"></script>
     <script src="<?php echo admin_template_url();?>js/jquery.flot.resize.js"></script>
+    <script src="<?php echo admin_template_url();?>js/jquery.form.js"></script>
     <script type="text/javascript" src="<?php echo admin_template_url();?>js/datepicker/jquery.datepick.js"></script>
+    <script type="text/javascript" src="<?php echo admin_template_url();?>js/custom.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function(){
-		$('.datepicker').datepick({showTrigger: '#calImg',dateFormat: 'dd-mm-yyyy'});
-	});
+		var base_url = '<?php echo base_url();?>';
+		$(document).ready(function(){
+			$('#msg').fadeOut(400);
+			$('.datepicker').datepick({showTrigger: '#calImg',dateFormat: 'dd-mm-yyyy'});
+		});
 	</script>
     
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -83,8 +87,8 @@
 		
         <div class="row">
         <div class="span10">
-        
-		<?php
+        <div id="response" style="display:none"></div>
+		<?php 
 		if( isset($page) and !empty($page)  )
 		{
 			$this->load->view('admin/'.$page);	

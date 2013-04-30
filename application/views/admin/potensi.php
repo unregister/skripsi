@@ -27,7 +27,7 @@ foreach((array)$result as $row)
         <td><?php echo $row['potensi_nama'];?></td>
         <td><?php echo ($row['potensi_status'] == 1 )?'Aktif':'Tidak aktif';?></td>
         <td class="actions">
-            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/potensi/delete/'.$row['id_potensi']);?>" onclick="<?php echo confirm('Yakin mau hapus data ini?');?>">Hapus</a>
+            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/potensi/delete/'.$row['id_potensi']);?>" onclick="">Hapus</a>
             <a class="btn btn-small btn-primary" href="<?php echo site_url('admin/potensi/edit/'.$row['id_potensi']);?>">Ubah</a>
             <?php if( $this->uri->segment(3) != 'sub'):?>
             <a class="btn btn-small btn-success" href="<?php echo site_url('admin/potensi/sub/'.$row['id_potensi']);?>">Sub Potensi</a>

@@ -20,12 +20,19 @@ class Potensi extends Controller
 	
 	function add()
 	{
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('nama','Nama potensi','trim|required');
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/potensi/add') );
 				exit();	
@@ -46,6 +53,12 @@ class Potensi extends Controller
 				
 				$save = $this->potensi_model->save_data( $arr );	
 				if($save){
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/potensi/add') );
 					exit();
@@ -71,12 +84,19 @@ class Potensi extends Controller
 	{
 		$id = $this->uri->segment(4,0);
 		
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('nama','Nama potensi','trim|required');
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/potensi/add') );
 				exit();	
@@ -100,6 +120,12 @@ class Potensi extends Controller
 				
 				$save = $this->potensi_model->save_data( $arr, $id );	
 				if($save){
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/potensi/edit/'.$id) );
 					exit();
@@ -127,7 +153,19 @@ class Potensi extends Controller
 		$delete = $this->potensi_model->delete($id);
 		if($delete)
 		{
-			$this->session->set_flashdata('_msg',success('Data berhasil dihapus'));
+			$icon = $this->_get_icon($id);
+			if( !empty($icon) and file_exists(APPPATH."views/public/icon/$icon") ){
+				@unlink( APPPATH."views/public/icon/$icon" );
+			}
+			
+			if( $_POST['ajax'] == '1' )
+			{
+				$msg['status'] = 1;
+				$msg['msg'] = success('Data berhasil dihapus');
+				echo json_encode($msg);
+				die();
+			}
+			$this->session->set_flashdata('_msg',success('Data berhasil dihapus'.$icon));
 			redirect( site_url('admin/potensi') );
 			exit();
 		}
@@ -140,5 +178,12 @@ class Potensi extends Controller
 		$data['title'] = 'Potensi';
 		$data['page'] = 'potensi';
 		$this->load->view('admin/layout_main',$data);
+	}
+	
+	function _get_icon($id)
+	{
+		$this->db->where('id_potensi',$id);
+		$run = $this->db->get('potensi') -> row_array();
+		return @$run['potensi_icon'];	
 	}
 }

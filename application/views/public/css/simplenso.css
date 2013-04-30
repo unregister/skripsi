@@ -334,3 +334,10 @@ div.logo {
 	background: url(../images/bg.png) no-repeat;
 	margin: 0px !important;	
 }
+
+div.span2 
+{
+	border-radius: 0px !important;
+	-moz-border-radius:0px !important;
+	-webkit-border-radius:0px !important;	
+}

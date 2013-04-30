@@ -20,19 +20,31 @@ class Spasial extends Controller
 	
 	function add()
 	{
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('id_potensi','Id Potensi','trim|required');
 			$this->form_validation->set_rules('id_kecamatan','Id Kecamatan','trim|required');
+			$this->form_validation->set_rules('nilai','Value','trim|required');
+			$this->form_validation->set_rules('latitude[]','Latitude','trim|required');
+			$this->form_validation->set_rules('longitude[]','Longitude','trim|required');
+			$this->form_validation->set_rules('alamat[]','Alamat','trim|required');
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/spasial/add') );
 				exit();	
 			}
 			else
 			{
+				
 				$arr['id_potensi'] = $this->input->post('id_potensi');
 				$arr['id_kecamatan'] = (int)$this->input->post('id_kecamatan');
 				$arr['spasial_status'] = (int)$this->input->post('status');
@@ -56,6 +68,13 @@ class Spasial extends Controller
 						}
 					}
 					
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
+					
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/spasial/add') );
 					exit();
@@ -73,15 +92,26 @@ class Spasial extends Controller
 	{
 		$id = $this->uri->segment(4,0);
 		
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('id_potensi','Id Potensi','trim|required');
 			$this->form_validation->set_rules('id_kecamatan','Id Kecamatan','trim|required');
+			$this->form_validation->set_rules('nilai','Value','trim|required');
+			$this->form_validation->set_rules('latitude[]','Latitude','trim|required');
+			$this->form_validation->set_rules('longitude[]','Longitude','trim|required');
+			$this->form_validation->set_rules('alamat[]','Alamat','trim|required');
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
 				$this->session->set_flashdata('_msg', error(validation_errors()));
-				redirect( site_url('admin/spasial/add') );
+				redirect( site_url('admin/spasial/edit/'.$id) );
 				exit();	
 			}
 			else
@@ -111,6 +141,13 @@ class Spasial extends Controller
 						}
 					}
 					
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
+					
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/spasial/edit/'.$id) );
 					exit();
@@ -134,6 +171,13 @@ class Spasial extends Controller
 		$delete = $this->spasial_model->delete($id);
 		if($delete)
 		{
+			if( $_POST['ajax'] == '1' )
+			{
+				$msg['status'] = 1;
+				$msg['msg'] = success('Data berhasil dihapus');
+				echo json_encode($msg);
+				die();
+			}
 			$this->session->set_flashdata('_msg',success('Data berhasil dihapus'));
 			redirect( site_url('admin/spasial') );
 			exit();

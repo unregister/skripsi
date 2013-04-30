@@ -1,5 +1,5 @@
 <ul class="nav nav-list"> 
-  <li class="nav-header">Kec. <?php echo $kecamatan_nama; ?></li>        
+  <li class="nav-header">Potensi Ekonomi Kecamatan <?php echo $kecamatan_nama; ?></li>        
 	<?php foreach((array)$potensi as $pot): 
 	if( $pot['id_potensi'] > 0 )
 	{

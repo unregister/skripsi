@@ -12,6 +12,7 @@ class Kecamatan extends Controller
 	
 	function index()
 	{
+		//pr( $this->session->userdata('admin_login') );
 		$data['kecamatan'] = $this->kecamatan_model->get_kecamatan();
 		$data['title'] = 'Kecamatan';
 		$data['page'] = 'kecamatan';
@@ -20,7 +21,7 @@ class Kecamatan extends Controller
 	
 	function add()
 	{
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('nama','Nama kecamatan','trim|required|alpha');
 			$this->form_validation->set_rules('latitude','Koordinat latitude kecamatan','trim|required|callback_koordinat_cek');
@@ -29,6 +30,13 @@ class Kecamatan extends Controller
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/kecamatan/add') );
 				exit();	
@@ -39,10 +47,19 @@ class Kecamatan extends Controller
 				$arr['kecamatan_latitude'] = $this->input->post('latitude');
 				$arr['kecamatan_longitude'] = $this->input->post('longitude');
 				$save = $this->kecamatan_model->save_data( $arr );	
-				if($save){
+				if($save)
+				{
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
+					
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/kecamatan/add') );
 					exit();
+					
 				}
 			}
 		}
@@ -56,7 +73,7 @@ class Kecamatan extends Controller
 	{
 		$kecamatan_id = $this->uri->segment(4,0);
 		
-		if( isset($_POST['save_data']) )
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
 			$this->form_validation->set_rules('nama','Nama kecamatan','trim|required|alpha');
 			$this->form_validation->set_rules('latitude','Koordinat latitude kecamatan','trim|required|callback_koordinat_cek');
@@ -65,6 +82,14 @@ class Kecamatan extends Controller
 			
 			if( $this->form_validation->run() == false )
 			{
+				$msg = array();
+				if( $_POST['ajax'] == '1' )
+				{
+					$msg['msg'] = error(validation_errors());
+					echo json_encode($msg);
+					die();
+				}
+				
 				$this->session->set_flashdata('_msg', error(validation_errors()));
 				redirect( site_url('admin/kecamatan/edit/'.$kecamatan_id) );
 				exit();	
@@ -76,6 +101,12 @@ class Kecamatan extends Controller
 				$arr['kecamatan_longitude'] = $this->input->post('longitude');
 				$save = $this->kecamatan_model->save_data( $arr, $kecamatan_id );	
 				if($save){
+					if( $_POST['ajax'] == '1' )
+					{
+						$msg['msg'] = success('Data berhasil disimpan');
+						echo json_encode($msg);
+						die();
+					}
 					$this->session->set_flashdata('_msg',success('Data berhasil disimpan'));
 					redirect( site_url('admin/kecamatan/edit/'.$kecamatan_id) );
 					exit();
@@ -95,6 +126,13 @@ class Kecamatan extends Controller
 		$kecamatan_id = $this->uri->segment(4,0);
 		$delete = $this->kecamatan_model->delete($kecamatan_id);
 		if($delete){
+			if( $_POST['ajax'] == '1' )
+			{
+				$msg['status'] = 1;
+				$msg['msg'] = success('Data berhasil dihapus');
+				echo json_encode($msg);
+				die();
+			}
 			$this->session->set_flashdata('_msg',success('Data berhasil dihapus'));
 			redirect( site_url('admin/kecamatan') );
 			exit();
@@ -107,6 +145,11 @@ class Kecamatan extends Controller
 			return false;	
 		}
 		return true;
+	}
+	
+	function getdata()
+	{
+			
 	}
 	
 }

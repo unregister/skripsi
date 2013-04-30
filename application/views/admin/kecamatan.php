@@ -1,5 +1,3 @@
-
-			
 <a href="<?php echo site_url('admin/kecamatan/add');?>" class="btn btn-primary">Tambah kecamatan</a>
 <br />
 <br />
@@ -23,7 +21,7 @@ foreach((array)$kecamatan as $kec)
        <!-- <td><?php echo $kec['kecamatan_longitude'];?></td>
         <td><?php echo $kec['kecamatan_latitude'];?></td> -->
         <td class="actions">
-            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/kecamatan/delete/'.$kec['kecamatan_id']);?>" href="#removeItem" onclick="<?php echo confirm('Yakin mau hapus data ini?');?>">Hapus</a>
+            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/kecamatan/delete/'.$kec['kecamatan_id']);?>" onclick="">Hapus</a>
             <a class="btn btn-small btn-primary" href="<?php echo site_url('admin/kecamatan/edit/'.$kec['kecamatan_id']);?>">Ubah</a>
         </td>
     </tr>

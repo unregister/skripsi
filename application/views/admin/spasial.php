@@ -28,7 +28,7 @@ foreach((array)$result as $row)
         <td><?php echo $potensi;?></td>
         <td><?php echo ($row['spasial_status'] == 1 )?'Aktif':'Tidak aktif';?></td>
         <td class="actions">
-            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/spasial/delete/'.$row['id_spasial']);?>" onclick="<?php echo confirm('Yakin mau hapus data ini?');?>">Hapus</a>
+            <a class="btn btn-small btn-danger" href="<?php echo site_url('admin/spasial/delete/'.$row['id_spasial']);?>" onclick="">Hapus</a>
             <a class="btn btn-small btn-primary" href="<?php echo site_url('admin/spasial/edit/'.$row['id_spasial']);?>">Ubah</a>
         </td>
     </tr>

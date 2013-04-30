@@ -21,6 +21,11 @@ function cek_login( $redirect = true )
 {
 	$ci =& get_instance();
 	$userdata = $ci->session->userdata('admin_login');
+	
+	/*if( isset($_POST['loggedin']) and $_POST['loggedin'] == 1 ){
+		return true;	
+	}*/
+	
 	if(!empty($userdata)){
 		return true;	
 	}
@@ -56,7 +61,7 @@ function topmenu()
 			$menuurl = str_replace('admin/','',$row['menu_url']);
 			$active = ($url == $menuurl)?" class=\"active\"":"";
 			$out .= "<li$active>";
-			$out .= "<a href=\"".site_url($row['menu_url'])."\"><i class=\"icon-sitemap\"></i>&nbsp;&nbsp;".$row['menu_title']."</a>";
+			$out .= "<a href=\"".site_url($row['menu_url'])."\" class=\"getpage\"><i class=\"icon-sitemap\"></i>&nbsp;&nbsp;".$row['menu_title']."</a>";
 			$out .= "</li>\n";
 			
 		}
@@ -67,7 +72,7 @@ function topmenu()
 
 function confirm($msg)
 {
-	$html = "if( confirm('$msg') ){return true;}else{return false;}";	
+	$html = "javascript:delete_data('$msg');";	
 	return $html;
 }
 

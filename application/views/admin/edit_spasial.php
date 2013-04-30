@@ -4,6 +4,14 @@ $(document).ready(function(){
 	$('.addform').click(function(){
 		$('div.formcontrol').append('<div class="controls">Latitude : <input type="text" name="latitude[]" id="latitude" value="" />&nbsp;&nbsp;&nbsp;Longitude : <input type="text" name="longitude[]" id="longitude" value="" /> <div style="padding-top:2px"></div><br />Alamat :&nbsp;&nbsp;<textarea name="alamat[]" cols="60" rows="3" class="input-xxlarge"></textarea>&nbsp;&nbsp;&nbsp;<div style="padding-top:2px"></div></div>');
 	});
+	
+	$('select[name="id_potensi"]').change(function(){
+		var u = '<?php echo site_url('admin/spasial/satuan');?>';
+		var n = $(this).val();
+		$.post(u,{id:n},function(d){
+			$('.vl').html(d);
+		});
+	});
 });
 </script>
     <div class="page-header">
@@ -39,7 +47,7 @@ $(document).ready(function(){
         <?php 
 			$value = array('name' => 'nilai', 'class' => 'input-xlarge focused','id' => 'focusedInput','value'=>$result['spasial_value']);
 			echo form_input($value);
-		?> *dalam KG
+		?> <span class="vl"> ekor</span>
         </div>
       </div>
       

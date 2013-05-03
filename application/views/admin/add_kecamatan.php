@@ -40,6 +40,16 @@
         </div>
       </div>
       
+      <div class="control-group">
+        <label for="focusedInput" class="control-label">Luas kecamatan</label>
+        <div class="controls">
+        <?php 
+			$luas = array('name' => 'luas', 'class' => 'input-xlarge focused','id' => 'focusedInput');
+			echo form_input($luas);
+		?>
+        </div>
+      </div>
+      
        <div class="control-group">
         <label for="focusedInput" class="control-label">&nbsp;</label>
         <div class="controls">

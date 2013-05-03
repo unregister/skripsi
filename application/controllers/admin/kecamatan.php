@@ -26,7 +26,9 @@ class Kecamatan extends Controller
 			$this->form_validation->set_rules('nama','Nama kecamatan','trim|required|alpha');
 			$this->form_validation->set_rules('latitude','Koordinat latitude kecamatan','trim|required|callback_koordinat_cek');
 			$this->form_validation->set_rules('longitude','Koordinat longitude kecamatan','trim|required|callback_koordinat_cek');	
+			$this->form_validation->set_rules('luas','Luas kecamatan','trim|required|numeric');
 			$this->form_validation->set_message('koordinat_cek','Koordinat hanya boleh berupa angka, tanda "-" dan tanda "."');
+			$this->form_validation->set_message('numeric','Luas wilayah hanya boleh berupa angka');
 			
 			if( $this->form_validation->run() == false )
 			{
@@ -46,6 +48,7 @@ class Kecamatan extends Controller
 				$arr['kecamatan_name'] = $this->input->post('nama');
 				$arr['kecamatan_latitude'] = $this->input->post('latitude');
 				$arr['kecamatan_longitude'] = $this->input->post('longitude');
+				$arr['kecamatan_luas'] = $this->input->post('luas');
 				$save = $this->kecamatan_model->save_data( $arr );	
 				if($save)
 				{
@@ -77,9 +80,10 @@ class Kecamatan extends Controller
 		{
 			$this->form_validation->set_rules('nama','Nama kecamatan','trim|required|alpha');
 			$this->form_validation->set_rules('latitude','Koordinat latitude kecamatan','trim|required|callback_koordinat_cek');
-			$this->form_validation->set_rules('longitude','Koordinat longitude kecamatan','trim|required|callback_koordinat_cek');	
+			$this->form_validation->set_rules('longitude','Koordinat longitude kecamatan','trim|required|callback_koordinat_cek');
+			$this->form_validation->set_rules('luas','Luas kecamatan','trim|required|numeric');	
 			$this->form_validation->set_message('koordinat_cek','Koordinat hanya boleh berupa angka, tanda "-" dan tanda "."');
-			
+			$this->form_validation->set_message('numeric','Luas wilayah hanya boleh berupa angka');
 			if( $this->form_validation->run() == false )
 			{
 				$msg = array();
@@ -99,6 +103,7 @@ class Kecamatan extends Controller
 				$arr['kecamatan_name'] = $this->input->post('nama');
 				$arr['kecamatan_latitude'] = $this->input->post('latitude');
 				$arr['kecamatan_longitude'] = $this->input->post('longitude');
+				$arr['kecamatan_luas'] = $this->input->post('luas');
 				$save = $this->kecamatan_model->save_data( $arr, $kecamatan_id );	
 				if($save){
 					if( $_POST['ajax'] == '1' )

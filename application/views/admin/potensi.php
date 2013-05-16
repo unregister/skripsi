@@ -1,4 +1,4 @@
-<a href="<?php echo site_url('admin/potensi/add');?>" class="btn btn-primary">Tambah potensi</a>
+<a href="<?php echo site_url('admin/potensi/add');?>" class="btn btn-primary">Tambah <?php echo ($this->uri->segment(4)) ? 'sub' : ''; ?> potensi</a>
 <br />
 <br />
 <?php show_message();?>

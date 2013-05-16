@@ -1,11 +1,11 @@
-<a href="<?php echo site_url('admin/person/add');?>" class="btn btn-primary">Tambah person</a>
+<a href="<?php echo site_url('admin/person/add');?>" class="btn btn-primary">Tambah penduduk</a>
 <br />
 <br />
 <?php show_message();?>
 <table class="orders-table table">
 <thead>
     <tr>
-        <th>ID Prson</th>
+        <th>ID penduduk</th>
         <th>Nama Person</th>
         <th>Jenis kelamin</th>
         <th>Kecamatan</th>

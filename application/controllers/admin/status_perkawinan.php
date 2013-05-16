@@ -13,7 +13,7 @@ class Status_perkawinan extends Controller
 	function index()
 	{
 		$data['result'] = $this->status_perkawinan_model->get_data();
-		$data['title'] = 'Pendidikan';
+		$data['title'] = 'Status perkawinan';
 		$data['page'] = 'status_perkawinan';
 		$this->load->view('admin/layout_main',$data);
 	}

@@ -13,7 +13,7 @@ class Penyandang_cacat extends Controller
 	function index()
 	{
 		$data['result'] = $this->penyandang_cacat_model->get_data();
-		$data['title'] = 'Pendidikan';
+		$data['title'] = 'Penyandang cacat';
 		$data['page'] = 'penyandang_cacat';
 		$this->load->view('admin/layout_main',$data);
 	}

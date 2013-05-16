@@ -13,7 +13,7 @@ class Person extends Controller
 	function index()
 	{
 		$data['result'] = $this->person_model->get_data();
-		$data['title'] = 'Person';
+		$data['title'] = 'Penduduk';
 		$data['page'] = 'person';
 		$this->load->view('admin/layout_main',$data);
 	}
@@ -256,7 +256,7 @@ class Person extends Controller
 		$data['pendidikan'] = get_pendidikan(1,true);
 		$data['id'] = $id;
 		$data['result'] = $this->person_model->get_data($id);
-		$data['title'] = 'Edit person';
+		$data['title'] = 'Edit penduduk';
 		$data['page'] = 'edit_person';
 		$this->load->view('admin/layout_main',$data);
 	}
@@ -272,7 +272,7 @@ class Person extends Controller
 		$data['pekerjaan'] = get_pekerjaan(1,true);
 		$data['pendidikan'] = get_pendidikan(1,true);
 		$data['result'] = $this->person_model->get_data($id);
-		$data['title'] = 'Detail person';
+		$data['title'] = 'Detail penduduk';
 		$data['page'] = 'detail_person';
 		$this->load->view('admin/layout_main',$data);
 	}

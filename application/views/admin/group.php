@@ -32,7 +32,7 @@ foreach((array)$result as $row)
 		endif;
 		?>
             <a class="btn btn-small btn-primary" href="<?php echo site_url('admin/group/edit/'.$row['id_group']);?>">Ubah</a>
-            <a class="btn btn-small btn-success" href="<?php echo site_url('admin/group/access/'.$row['id_group']);?>">Hak akses</a>
+           <!-- <a class="btn btn-small btn-success" href="<?php echo site_url('admin/group/access/'.$row['id_group']);?>">Hak akses</a>-->
         </td>
     </tr>
 <?php

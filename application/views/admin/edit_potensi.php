@@ -36,7 +36,9 @@
 		?> Aktif
         </div>
       </div>
-      
+      <?php
+	  if( isset($use_icon) and $use_icon == true ):
+	  ?>
      <div class="control-group">
         <label for="focusedInput" class="control-label">Icon</label>
         <div class="controls">
@@ -54,7 +56,9 @@
 		?>
         </div>
       </div>
-      
+      <?php
+	  endif;
+	  ?>
        <div class="control-group">
         <label for="focusedInput" class="control-label">&nbsp;</label>
         <div class="controls">

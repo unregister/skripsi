@@ -73,7 +73,6 @@ class Potensi extends Controller
 		{
 			$parent[$row['id_potensi']] = $row['potensi_nama'];
 		}
-		
 		$data['parent'] = $parent;
 		$data['title'] = 'Tambah potensi';
 		$data['page'] = 'add_potensi';
@@ -142,7 +141,11 @@ class Potensi extends Controller
 		$data['parent'] = $parent;
 		$data['id'] = $id;
 		$data['result'] = $this->potensi_model->get_data($id);
-		$data['title'] = 'Edit potensi';
+		$xs = ($data['result']['potensi_parent'] == 0)?'':' sub ';
+		
+		
+		$data['use_icon'] = ($data['result']['potensi_parent'] == 0)? false:true;
+		$data['title'] = 'Edit '.$xs.' potensi';
 		$data['page'] = 'edit_potensi';
 		$this->load->view('admin/layout_main',$data);
 	}
@@ -175,7 +178,7 @@ class Potensi extends Controller
 	{
 		$id = $this->uri->segment(4,0);
 		$data['result'] = $this->potensi_model->get_potensi($id);
-		$data['title'] = 'Potensi';
+		$data['title'] = 'Sub potensi';
 		$data['page'] = 'potensi';
 		$this->load->view('admin/layout_main',$data);
 	}

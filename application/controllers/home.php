@@ -428,6 +428,15 @@ class Home extends Controller {
 		$data['page'] = 'rute';
 		$this->load->view('public/layout_main',$data);
 	}
+	
+	function getcoor()
+	{
+		$id = $_POST['id'];
+		$this->db->where('id_marker',$id);
+		$run = $this->db->get('marker')->row_array();
+		echo json_encode($run);
+		exit();
+	}
 }
 
 /* End of file welcome.php */

@@ -1,5 +1,15 @@
 <div class="slate">
-
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#parentid').change(function(){
+		if( $(this).val() == 0 ){
+			$('#tohide').slideUp(400);	
+		}else{
+			$('#tohide').slideDown(400);	
+		}
+	});
+});
+</script>
     <div class="page-header">
         <h2><?php echo $title; ?></h2>
     </div>
@@ -22,12 +32,13 @@
         <label for="focusedInput" class="control-label">Parent</label>
         <div class="controls">
         <?php 
-			echo form_dropdown('parent',$parent);
+			echo form_dropdown('parent',$parent,'',' id="parentid"');
 		?>
         </div>
       </div>
       
-      <div class="control-group">
+      <div id="tohide">
+      <div class="control-group tohidden">
         <label for="focusedInput" class="control-label">Icon</label>
         <div class="controls">
         <?php 
@@ -36,7 +47,7 @@
 		?>
         </div>
       </div>
-      
+      </div>
       <div class="control-group">
         <label for="focusedInput" class="control-label">Status</label>
         <div class="controls">

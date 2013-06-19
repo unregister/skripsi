@@ -138,4 +138,29 @@
     </script>
     <div id="chart_potensi" style="width: 100%; height: 400px;"></div>
     <?php echo fluid_close();?>
+    
+    
+    <?php echo fluid_open('Grafik Usia');?>
+    <script type="text/javascript">
+          google.load("visualization", "1", {packages:["corechart"]});
+          google.setOnLoadCallback(drawChart);
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Usia', 'Jumlah'],
+              <?php echo $grafik_usia;?>
+            ]);
+    
+            var options = {
+              title: 'Grafik Usia',
+			  width:550,
+			  height:400,
+              hAxis: {title: 'Usia', titleTextStyle: {color: 'red'}}
+            };
+    
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart_usia'));
+            chart.draw(data, options);
+          }
+    </script>
+    <div id="chart_usia" style="width: 100%; height: 400px;"></div>
+    <?php echo fluid_close();?>
 </div>

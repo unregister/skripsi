@@ -164,6 +164,96 @@ class Home extends Controller {
 			$kwn[] = "['".$e['statusperkawinan_nama']."',".count_data_grafik('id_statusperkawinan',$e['id_statusperkawinan'],$kecamatan_id)."]";
 		}	
 		
+		# GRAFIK USIA
+		$arrusia = array(
+							'0 - 10 tahun'=>0,
+							'11 - 20 tahun'=>0,
+							'21 - 30 tahun'=>0,
+							'31 - 40 tahun' => 0,
+							'41 - 50 tahun'=>0,
+							'51 - 60 tahun'=>0,
+							'61 - 70 tahun'=>0,
+							'71 - 80 tahun'=>0,
+							'81 - 90 tahun'=>0,
+							'91 - 100 tahun'=>0,
+							' > 100 tahun'=>0
+							);
+		$range = array();
+		$grafusia = array();
+		
+		if( $this->uri->segment(3) ){
+			$this->db->where('id_kecamatan',$kecamatan_id);	
+		}
+		$usia = $this->db->get('person') -> result_array();
+		$num=0;
+		foreach((array)$usia as $us)
+		{
+			
+			
+			$jmlhari = $this->hitung_usia($us['person_tanggallahir']);
+			if( $jmlhari <= 3650 ){
+				$range['satu'][] = $us['id_person'];
+				$arrusia['0 - 10 tahun'] = count($range['satu']);
+			}
+			
+			if( $jmlhari > 3650 and $jmlhari <= 7300 ){
+				$range['dua'][] = $us['id_person'];
+				$arrusia['11 - 20 tahun'] = count($range['dua']);
+			}
+			
+			if( $jmlhari > 7300 and $jmlhari <= 10950 ){
+				$range['tiga'][] = $us['id_person'];
+				$arrusia['21 - 30 tahun'] = count($range['tiga']);
+			}
+			
+			if( $jmlhari > 10950 and $jmlhari <= 14600 ){
+				$range['empat'][] = $us['id_person'];
+				$arrusia['31 - 40 tahun'] = count($range['empat']);
+			}
+			
+			if( $jmlhari > 14600 and $jmlhari <= 18250 ){
+				$range['lima'][] = $us['id_person'];
+				$arrusia['41 - 50 tahun'] = count($range['lima']);
+			}
+			
+			if( $jmlhari > 18250 and $jmlhari <= 21900 ){
+				$range['enam'][] = $us['id_person'];
+				$arrusia['51 - 60 tahun'] = count($range['enam']);
+			}
+			
+			if( $jmlhari > 21900 and $jmlhari <= 25550 ){
+				$range['tujuh'][] = $us['id_person'];
+				$arrusia['61 - 70 tahun'] = count($range['tujuh']);
+			}
+			
+			if( $jmlhari > 25550 and $jmlhari <= 29200 ){
+				$range['delapan'][] = $us['id_person'];
+				$arrusia['71 - 80 tahun'] = count($range['delapan']);
+			}
+			
+			if( $jmlhari > 29200 and $jmlhari <= 32850 ){
+				$range['sembilan'][] = $us['id_person'];
+				$arrusia['81 - 90 tahun'] = count($range['sembilan']);
+			}
+			
+			if( $jmlhari > 32850 and $jmlhari <= 36500 ){
+				$range['sepuluh'][] = $us['id_person'];
+				$arrusia['91 - 100 tahun'] = count($range['sepuluh']);
+			}
+			
+			if( $jmlhari > 36500 ){
+				$range['sebelas'][] = $us['id_person'];
+				$arrusia[' > 100 tahun'] = count($range['sebelas']);
+			}
+		}
+		
+		foreach(($arrusia)as $key=>$val)
+		{
+			$grafusia[] = "['".$key."',$val]";	
+		}
+		
+		//pr($grafusia);
+		//die;
 		# POTENSI
 		
 		# get sub parent
@@ -215,6 +305,7 @@ class Home extends Controller {
 		$data['grafik_pendidikan'] = implode(',',$pend);
 		$data['grafik_statusperkawinan'] = implode(',',$kwn);
 		$data['grafik_potensi'] = implode(',',$pot);
+		$data['grafik_usia'] = implode(',',$grafusia);
 		
 		$data['nosidebar'] = true;
 		$data['page'] = 'grafik';
@@ -406,9 +497,13 @@ class Home extends Controller {
 			$c = array('primary'=>'id_potensi','field'=>'potensi_icon','table'=>'potensi','id'=>$b);					
 			$d = single_data($c);
 			
+			$v = array('primary'=>'id_potensi','field'=>'potensi_value','table'=>'potensi','id'=>$b);					
+			$w = single_data($v);
 			
-			
-			$r[] = array('lat' => $row['latitude'],'long' => $row['longitude'],'icon' => $d,'id' => $row['id_marker'],'alamat' => $row['alamat'],'direction' => url_title($row['alamat']) );
+			$satuan = $this->_satuan($b);
+			$o = ( empty($w) )?0:$w
+;			
+			$r[] = array('lat' => $row['latitude'],'long' => $row['longitude'],'icon' => $d,'id' => $row['id_marker'],'alamat' => $row['alamat'],'direction' => url_title($row['alamat']),'value' => $o.' '.$satuan);
 		}
 		
 		echo json_encode($r);
@@ -437,6 +532,94 @@ class Home extends Controller {
 		echo json_encode($run);
 		exit();
 	}
+	
+	function hitung_usia($lhr)
+	{
+		list($tgl,$bln,$thn) = explode('-',$lhr);
+		$format = "$thn-$bln-$tgl";
+		$query = $this->db->query("SELECT DATEDIFF( NOW(), '$format') AS jml");	
+		$run = $query->row_array();
+		return @$run['jml'];
+	}
+	
+	function _satuan($id)
+	{
+		
+		$this->db->where('id_potensi',$id);
+		$run = $this->db->get('potensi') -> row_array();
+		
+		if( $run['potensi_parent'] == 0 )
+		{
+			switch($id)
+			{
+				case '1':
+					$satuan = ' Ekor';
+				break;
+				case '2':
+					$satuan = ' Kilogram';
+				break;
+				case '3':
+					$satuan = ' Meter';
+				break;
+				case '4':
+					$satuan = ' Kilogram';
+				break;
+				case '5':
+					$satuan = ' Lokasi';
+				break;
+				case '6':
+					$satuan = ' Lokasi';
+				break;
+				case '8':
+					$satuan = ' SIUP';
+				break;
+				case '69':
+					$satuan = ' Lokasi';
+				break;
+				case '70':
+					$satuan = ' Lokasi';
+				break;	
+			}
+		}
+		else
+		{
+			$this->db->where('id_potensi',$run['id_potensi']);
+			$runs = $this->db->get('potensi') -> row_array();
+			//pr($runs);
+			switch($runs['potensi_parent'])
+			{
+				case '1':
+					$satuan = ' Ekor';
+				break;
+				case '2':
+					$satuan = ' Kilogram';
+				break;
+				case '3':
+					$satuan = ' Meter';
+				break;
+				case '4':
+					$satuan = ' Kilogram';
+				break;
+				case '5':
+					$satuan = ' Lokasi';
+				break;
+				case '6':
+					$satuan = ' Lokasi';
+				break;
+				case '8':
+					$satuan = ' SIUP';
+				break;
+				case '69':
+					$satuan = ' Lokasi';
+				break;
+				case '70':
+					$satuan = ' Lokasi';
+				break;	
+			}
+		}
+		return $satuan;
+	}
+	
 }
 
 /* End of file welcome.php */

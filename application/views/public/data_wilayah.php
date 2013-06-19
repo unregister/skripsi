@@ -46,11 +46,12 @@ function showMarker(lat)
 			var long = d[i].long;
 			var id = d[i].id;
 			var coor = getCoor(id);
+			var val = d[i].value
 			
 			google.maps.event.addListener(marker, 'click', function (d) {
 				
 				//alert(coor);
-				var markerContent = 'Alamat : '+alamat+'<br> Latitude : '+lat+'<br>Longitude : '+long+'<br> <a href="<?php echo base_url()?>home/rute/'+id+'">Rute</a>';
+				var markerContent = 'Alamat : '+alamat+'<br> Latitude : '+lat+'<br>Longitude : '+long+'<br>Value : '+val+'<br> <a href="<?php echo base_url()?>home/rute/'+id+'">Rute</a>';
 				infoWindow.setContent(markerContent);
 				infoWindow.open(map, this);
 			});

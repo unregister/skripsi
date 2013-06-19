@@ -131,7 +131,7 @@
         <label for="focusedInput" class="control-label">Tempat lahir</label>
         <div class="controls">
         <?php 
-			echo $result['person_tanggallahir'];
+			echo $result['person_tempatlahir'];
 		?>
         </div>
       </div>

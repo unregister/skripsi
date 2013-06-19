@@ -1,4 +1,7 @@
-<a href="<?php echo site_url('admin/potensi/add');?>" class="btn btn-primary">Tambah <?php echo ($this->uri->segment(4)) ? 'sub' : ''; ?> potensi</a>
+<?php
+$url = ($this->uri->segment(4))?'/'.$this->uri->segment(4) : ''; 
+?>
+<a href="<?php echo site_url('admin/potensi/add'.$url);?>" class="btn btn-primary">Tambah <?php echo ($this->uri->segment(4)) ? 'sub' : ''; ?> potensi</a>
 <br />
 <br />
 <?php show_message();?>

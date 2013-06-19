@@ -213,6 +213,23 @@ function get_statusperkawinan( $status = 1, $selectbox = false )
 	return $query->result_array();
 }
 
+function get_potensi_select( $status = 1, $selectbox = false )
+{
+	$ci =& get_instance();
+	$ci->db->where('potensi_status',$status);
+	$ci->db->where('potensi_parent',0);
+	$query = $ci->db->get('potensi');
+	
+	$arr = array();
+	if( $selectbox ){
+		foreach((array)$query->result_array() as $row){
+			$arr[$row['id_potensi']] = $row['potensi_nama'];	
+		}
+		return $arr;
+	}
+	return $query->result_array();
+}
+
 function get_potensi( $status = 1, $parent = null )
 {
 	$ci =& get_instance();
@@ -223,6 +240,15 @@ function get_potensi( $status = 1, $parent = null )
 	$query = $ci->db->get('potensi');
 	return $query->result_array();
 }
+
+function get_spasial_select( $status = 1 )
+{
+	$ci =& get_instance();
+	$ci->db->where('potensi_status',1);
+	$query = $ci->db->get('spasial');
+	return $query->result_array();
+}
+
 
 function single_data( $arr )
 {
@@ -422,4 +448,106 @@ function get_count_potensi( $potensi_id, $kec_id = 0 )
 	$ci->db->where('id_potensi',$potensi_id);
 	$ci->db->from('spasial');
 	return $ci->db->count_all_results();
+}
+
+function grafik_data($mode,$kec,$id)
+{
+	$ci =& get_instance();
+	switch( strtolower($mode) )
+	{
+		case 'agama':
+			$ci->db->where('id_agama',$id);
+			$ci->db->where('id_kecamatan',$kec);
+			$result = $ci->db->count_all_results('person') . ' jiwa';
+		break;
+		
+		case 'pendidikan':
+			$ci->db->where('id_pendidikan',$id);
+			$ci->db->where('id_kecamatan',$kec);
+			$result = $ci->db->count_all_results('person') . ' jiwa';
+		break;	
+		
+		case 'cacat':
+			$ci->db->where('id_penyandangcacat',$id);
+			$ci->db->where('id_kecamatan',$kec);
+			$result = $ci->db->count_all_results('person') . ' jiwa';
+		break;
+		
+		case 'pekerjaan':
+			$ci->db->where('id_pekerjaan',$id);
+			$ci->db->where('id_kecamatan',$kec);
+			$result = $ci->db->count_all_results('person') . ' jiwa';
+		break;
+		
+		case 'goldarah':
+			$ci->db->where('id_golongandarah',$id);
+			$ci->db->where('id_kecamatan',$kec);
+			$result = $ci->db->count_all_results('person') . ' jiwa';
+		break;
+		
+		case 'kawin':
+			$ci->db->where('id_statusperkawinan',$id);
+			$ci->db->where('id_kecamatan',$kec);
+			$result = $ci->db->count_all_results('person') . ' jiwa';
+		break;
+		
+		case 'potensi':
+			$ar = array();
+			$ci->db->where('potensi_parent',$id);
+			$par = $ci->db->get('potensi')->result_array();
+			foreach((array)$par as $p){
+				$ar[] = $p['id_potensi'];
+			}
+			
+			$idpot = implode(',',$ar);
+			$sql = "SELECT SUM(spasial_value) AS jml FROM spasial WHERE id_potensi IN($idpot) AND id_kecamatan = $kec ";
+			$run = $ci->db->query($sql) ->row_array();
+			$result = (empty($run['jml']) ? 0 : mformat($run['jml'])).' '.satuan($id);
+		break;
+		
+		case 'usia':
+			
+		break;
+	}
+	return $result;
+}
+
+function satuan( $id )
+{
+	switch($id)
+	{
+		case '1':
+			$satuan = ' Ekor';
+		break;
+		case '2':
+			$satuan = ' Kg';
+		break;
+		case '3':
+			$satuan = ' M';
+		break;
+		case '4':
+			$satuan = ' Kg';
+		break;
+		case '5':
+			$satuan = ' Lokasi';
+		break;
+		case '6':
+			$satuan = ' Lokasi';
+		break;
+		case '8':
+			$satuan = ' SIUP';
+		break;
+		case '69':
+			$satuan = ' Lokasi';
+		break;
+		case '70':
+			$satuan = ' Lokasi';
+		break;	
+	}	
+	return $satuan;
+}
+
+function mformat($val)
+{
+	return number_format( $val, 0,',','.');
 }

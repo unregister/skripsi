@@ -32,11 +32,12 @@ $(document).ready(function(){
         <label for="focusedInput" class="control-label">Parent</label>
         <div class="controls">
         <?php 
-			echo form_dropdown('parent',$parent,'',' id="parentid"');
+			$par = ($this->uri->segment(4))?$this->uri->segment(4) : '';
+			echo form_dropdown('parent',$parent,$par,' id="parentid"');
 		?>
         </div>
       </div>
-      
+      <?php if( $this->uri->segment(4) ): ?>
       <div id="tohide">
       <div class="control-group tohidden">
         <label for="focusedInput" class="control-label">Icon</label>
@@ -48,6 +49,8 @@ $(document).ready(function(){
         </div>
       </div>
       </div>
+      <?php endif; ?>
+      
       <div class="control-group">
         <label for="focusedInput" class="control-label">Status</label>
         <div class="controls">

@@ -29,7 +29,7 @@
       </div>
 	  
 	  <div class="control-group">
-        <label for="focusedInput" class="control-label">Nama admin</label>
+        <label for="focusedInput" class="control-label">Nama petugas</label>
         <div class="controls">
         <?php 
 			$nama = array('name' => 'nama', 'class' => 'input-xlarge focused','id' => 'focusedInput','value'=>$result['admin_nama']);

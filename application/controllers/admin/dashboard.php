@@ -15,6 +15,11 @@ class Dashboard extends Controller
 		$this->load->view('admin/layout_main',$data);
 	}
 	
+	function grafik()
+	{
+		
+	}
+	
 	function request()
 	{		
 		

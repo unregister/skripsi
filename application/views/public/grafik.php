@@ -93,7 +93,7 @@
 </div>
 
 <div class="row-fluid">
-	 <?php echo fluid_open('Status Perkawinan');?>
+	 <?php echo fluid_open('Grafik Status Perkawinan');?>
       <script type="text/javascript">
           google.load("visualization", "1", {packages:["corechart"]});
           google.setOnLoadCallback(drawChart);

@@ -252,7 +252,7 @@ class Home extends Controller {
 			$grafusia[] = "['".$key."',$val]";	
 		}
 		
-		//pr($grafusia);
+		pr($grafusia);
 		//die;
 		# POTENSI
 		

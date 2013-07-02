@@ -19,8 +19,6 @@
 *.rar
 *.tar
 *.zip
-*.doc
-*.docx
 
 # Logs and databases #
 ######################

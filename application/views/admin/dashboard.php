@@ -23,7 +23,18 @@ $jml_kawin = count($kawin);
 $potensi = get_potensi_select(1,true);
 $jml_potensi = count($potensi);
 
-
+$arrusia = array(	1 => '0 - 10 tahun',
+					2 => '11 - 20 tahun',
+					3 => '21 - 30 tahun',
+					4 => '31 - 40 tahun',
+					5 => '41 - 50 tahun',
+					6 => '51 - 60 tahun',
+					7 => '61 - 70 tahun',
+					8 => '71 - 80 tahun',
+					9 => '81 - 90 tahun',
+					10 => '91 - 100 tahun',
+					11 => ' > 100 tahun'
+					);
 ?>
 
 <script>
@@ -202,6 +213,27 @@ $jml_potensi = count($potensi);
             <?php endforeach; ?>
         </table>
     </div>
-    <div class="tab-pane" id="usia">...</div>
+    <div class="tab-pane" id="usia">
+    <table cellpadding="0" cellspacing="0" border="0" class="table table-bordered">
+            <tr>
+                <td colspan="<?php echo ( count($arrusia)+1);?>">Grafik Usia</td>
+            </tr>
+            <tr>
+                <th>Nama kecamatan</th>
+                <?php foreach((array)$arrusia as $us): ?>
+                <th><?php echo $us;?></th>
+                <?php endforeach; ?>
+            </tr>
+            
+            <?php foreach((array)$kecamatan as $kecId=>$kecNama):?>
+            <tr>
+                <td><?php echo $kecNama;?></td>
+                <?php foreach((array)$arrusia as $uId=>$uNama): ?>
+                <td><?php echo grafik_data('usia',$kecId,$uId);?></td>
+                <?php endforeach; ?>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
 </div>
 

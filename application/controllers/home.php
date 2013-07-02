@@ -501,9 +501,9 @@ class Home extends Controller {
 			$w = single_data($v);
 			
 			$satuan = $this->_satuan($b);
-			$o = ( empty($w) )?0:$w
+			$o = $this->getvalue($row['id_marker']);
 ;			
-			$r[] = array('lat' => $row['latitude'],'long' => $row['longitude'],'icon' => $d,'id' => $row['id_marker'],'alamat' => $row['alamat'],'direction' => url_title($row['alamat']),'value' => $o.' '.$satuan);
+			$r[] = array('lat' => $row['latitude'],'long' => $row['longitude'],'icon' => $d,'id' => $row['id_marker'],'alamat' => $row['alamat'],'direction' => url_title($row['alamat']),'value' => $o);
 		}
 		
 		echo json_encode($r);
@@ -618,6 +618,26 @@ class Home extends Controller {
 			}
 		}
 		return $satuan;
+	}
+	
+	function getvalue($id)
+	{
+		$this->db->select('id_spasial');
+		$this->db->where('id_marker',$id);
+		$run = $this->db->get('marker')->row_array();
+		if( !empty($run) ){
+			$id_spasial = (int)$run['id_spasial'];
+			$this->db->select('spasial_value');
+			$this->db->select('id_potensi');
+			$this->db->where('id_spasial',$id_spasial);	
+			$go = $this->db->get('spasial')->row_array();
+			if( !empty($go) ){
+				$sat = $this->_satuan($go['id_potensi']);
+				return mformat($go['spasial_value']).$sat;
+			}else{
+				return "0" . $sat;
+			}
+		}
 	}
 	
 }

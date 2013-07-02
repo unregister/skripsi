@@ -48,9 +48,8 @@ function showMarker(lat)
 			var coor = getCoor(id);
 			var val = d[i].value
 			
+			
 			google.maps.event.addListener(marker, 'click', function (d) {
-				
-				//alert(coor);
 				var markerContent = 'Alamat : '+alamat+'<br> Latitude : '+lat+'<br>Longitude : '+long+'<br>Value : '+val+'<br> <a href="<?php echo base_url()?>home/rute/'+id+'">Rute</a>';
 				infoWindow.setContent(markerContent);
 				infoWindow.open(map, this);
@@ -86,6 +85,14 @@ function clearMarker()
 	  }
 }
 
+function get_value(id_marker)
+{
+	var c = [];
+	var url = '<?php echo site_url('home/getvalue');?>';
+	$.post(url,{id:id_marker},function(r){
+		alert(r);
+	});
+}
 
 </script>
 

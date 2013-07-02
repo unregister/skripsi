@@ -506,7 +506,149 @@ function grafik_data($mode,$kec,$id)
 		break;
 		
 		case 'usia':
-			
+			switch($id)
+			{
+				case '1':
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari <= 3650 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+				break;
+				case '2':
+					
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 3650 and $jmlhari <= 7300 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+				case '3':
+					
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 7300 and $jmlhari <= 10950 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+				case '4':
+					
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 10950 and $jmlhari <= 14600 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+				case '5':
+					
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 14600 and $jmlhari <= 18250 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+				case '6':
+					
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 18250 and $jmlhari <= 21900 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+				case '7':
+					
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 21900 and $jmlhari <= 25550 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+				case '8':
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 25550 and $jmlhari <= 29200 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+				case '9':
+					
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 29200 and $jmlhari <= 32850 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+				case '10':
+					
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 32850 and $jmlhari <= 36500 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+				case '11':
+					
+					$arr = 0;
+					$go = $ci->db->query("SELECT * FROM person WHERE id_kecamatan = $kec") -> result_array();
+					foreach((array)$go as $usia){
+						$jmlhari = hitung_usia($usia['person_tanggallahir']);
+						if( $jmlhari > 36500 ){
+							$arr++;
+						}
+					}
+					$result = $arr;
+					
+				break;
+			}
 		break;
 	}
 	return $result;
@@ -550,4 +692,14 @@ function satuan( $id )
 function mformat($val)
 {
 	return number_format( $val, 0,',','.');
+}
+
+function hitung_usia($lhr)
+{
+	list($tgl,$bln,$thn) = explode('-',$lhr);
+	$format = "$thn-$bln-$tgl";
+	$ci =& get_instance();
+	$query = $ci->db->query("SELECT DATEDIFF( NOW(), '$format') AS jml");	
+	$run = $query->row_array();
+	return @$run['jml'];
 }

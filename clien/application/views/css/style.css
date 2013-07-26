@@ -1,0 +1,83 @@
+/* CSS Document */
+* {
+	font-family: Verdana;
+	font-size:11px;
+	color:#333333;	
+}
+
+body {
+	background: #EEEEEE;
+	padding:0px;
+	margin: 0px;
+	color: #333333;	
+}
+
+#header
+{
+	height: 50px;
+	background: #9FA839;
+	border-bottom: 1px solid #5C621C;	
+}
+
+#container
+{
+	
+}
+
+#login 
+{
+	margin:30px auto;
+	width:300px;
+	height: 200px;
+	border: 1px solid #C6C6C6;
+	background:#FFFFFF;
+	-moz-border-radius: 8px;
+	border-radius: 8px;	
+	box-shadow: 0px 1px 4px #CCCCCC;
+}
+
+
+#login table
+{
+	margin:10px;
+	border-collapse:collapse;
+}
+	
+#login table td {
+	padding:10px;
+}	
+
+#login table input[type="text"],input[type="password"]
+{
+	border:1px solid #CBCBCB;
+	padding: 3px;
+	font-size: 11px;	
+}
+
+#login table input[type="submit"]
+{
+	border: 1px solid #004B97;
+	background:#0167CD;
+	padding:5px 10px;
+	font-weight:bold;
+	color: #FFFFFF;
+	cursor:pointer;	
+}
+
+#login table p {
+	margin:0px;
+	padding:0px;
+	color:red;	
+}
+
+#menu {
+	width:100%;
+	background: #CCC;
+	border-bottom:1px solid #888;
+}
+
+.clear {
+	clear:both;	
+}
+
+

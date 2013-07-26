@@ -151,3 +151,71 @@ function getSOAPCekData( $id, $kolom )
 	}
 	return json_encode( array('status' => 0) );
 }
+
+function getSOAPPotensi( $combo = false )
+{
+	$ci =& get_instance();
+	$result = get_potensi();
+	
+	if( $combo == 1 )
+	{
+		$arr = array();
+		foreach((array)$result as $row){
+			$arr[$row['id_potensi']] = $row['potensi_nama'];
+		}
+		return json_encode($arr);
+	}
+	
+	return json_encode($result);
+}
+
+function getSOAPSpasial($id_kecamatan)
+{
+	$ci =& get_instance();
+	$ci->db->where("id_kecamatan",$id_kecamatan);
+	$result = $ci->db->get("spasial") -> result_array();
+	return json_encode($result);
+}
+
+function getSOAPInsertSpasial( $data )
+{
+	$ci =& get_instance();
+	if( empty($data) ){
+		return false;	
+	}
+	$data = json_decode($data,1);
+	if( array_keys($data) != 'marker' )
+	{
+		$insert = $ci->db->insert("person",$data);
+		if($insert){
+			$spasial_id = $ci->db->insert_id();
+			$arr = array("status"=>1,"msg"=>success("Data berhasil disimpan"));
+			return json_encode($arr);	
+		}else{
+			$arr = array("status"=>0,"msg"=>success("Data gagal disimpan"));
+			return json_encode($arr);	
+		}
+	}
+}
+
+function getSOAPDeleteSpasial($id)
+{
+	$ci =& get_instance();
+	$ci->db->where("id_spasial",$id);
+	$delete = $ci->db->delete("spasial");
+	if($delete){
+		$arr = array("status"=>1,"msg"=>success("Data berhasil dihapus"));
+		return json_encode($arr);	
+	}else{
+		$arr = array("status"=>0,"msg"=>success("Data gagal dihapus"));
+		return json_encode($arr);	
+	}
+}
+
+function getSOAPGetMarker($id)
+{
+	$ci =& get_instance();
+	$ci->db->where("id_spasial",$id);
+	$result = $ci->db->get("marker") -> result_array();
+	return json_encode($result);
+}

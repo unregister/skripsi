@@ -78,6 +78,22 @@ class Server extends Controller
 		$this->nusoap_server->register("getSOAPCekData",array('id' => 'xsd:string','field' => 'xsd:string'),array("return"=>"xsd:string"),
 			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Cek data tabel person");	
 			
+		# GET DATA SPASIAL
+		$this->nusoap_server->register("getSOAPSpasial",array('kecamatan_id' => 'xsd:integer'),array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Get data spasial");
+			
+		# GET DATA POTENSI
+		$this->nusoap_server->register("getSOAPPotensi",array('combo' => 'xsd:string'),array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Get data potensi");
+			
+		# DELETE DATA SPASIAL
+		$this->nusoap_server->register("getSOAPDeleteSpasial",array('id' => 'xsd:integer'),	array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Hapus data spasial");
+			
+		# GET DATA MARKE
+		$this->nusoap_server->register("getSOAPGetMarker",array('id' => 'xsd:integer'),	array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Get data marker");
+			
 	}
 	
 	function index()

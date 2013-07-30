@@ -90,10 +90,33 @@ class Server extends Controller
 		$this->nusoap_server->register("getSOAPDeleteSpasial",array('id' => 'xsd:integer'),	array("return"=>"xsd:string"),
 			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Hapus data spasial");
 			
-		# GET DATA MARKE
+		# GET DATA MARKER
 		$this->nusoap_server->register("getSOAPGetMarker",array('id' => 'xsd:integer'),	array("return"=>"xsd:string"),
 			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Get data marker");
+		
+		# GET DATA POTENSI BY ID getSOAPPotensiById
+		$this->nusoap_server->register("getSOAPPotensiById",array('id' => 'xsd:integer'),	array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Get data potensi by id_potensi");
+		
+		# INSERT DATA SPASIAL
+		$this->nusoap_server->register("getSOAPInsertSpasial",array('data' => 'xsd:string'),	array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Insert data spasial");
+		
+		# INSERT DATA MARKER
+		$this->nusoap_server->register("getSOAPInsertMarker",array('arr_marker' => 'xsd:string'),	array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Insert data marker");
 			
+		# DELETE DATA MARKER
+		$this->nusoap_server->register("getSOAPDeleteMarker",array('id' => 'xsd:integer'),	array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Hapus data marker");
+			
+		# UPDATE DATA SPASIAL
+		$this->nusoap_server->register("getSOAPUpdateSpasial",array('id'=>'xsd:integer','data' => 'xsd:string'),	array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Ubah data spasial");
+			
+		# GET DATA SPASIAL BY ID
+		$this->nusoap_server->register("getSOAPSpasialById",array('id'=>'xsd:integer'),	array("return"=>"xsd:string"),
+			"urn:SoapWSDL","urn:".$this->ns."/server","rpc","encoded","Get data spasial by id");
 	}
 	
 	function index()

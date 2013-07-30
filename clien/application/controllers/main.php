@@ -63,6 +63,7 @@ class Main extends Controller
 	
 	function add()
 	{
+		cek_login();
 		$data['current_kecamatan']	= get_login('id_kecamatan');
 		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
 		{
@@ -187,6 +188,7 @@ class Main extends Controller
 	
 	function edit()
 	{
+		cek_login();
 		$id = $this->uri->segment(3,0);
 		$data['current_kecamatan']	= get_login('id_kecamatan');
 		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
@@ -316,6 +318,7 @@ class Main extends Controller
 	
 	function detail()
 	{
+		cek_login();
 		$id = $this->uri->segment(3,0);
 		$requestPerson				= $this->request->call('getSOAPPersonById',array($id));
 		$requestKecamatan 			= $this->request->call('getSOAPKecamatan');
@@ -342,6 +345,7 @@ class Main extends Controller
 	
 	function delete()
 	{
+		cek_login();
 		$id = $this->uri->segment(3,0);
 		$request = $this->request->call('getSOAPDeletePerson',array($id));
 		$result = json_decode($request,true);
@@ -360,6 +364,7 @@ class Main extends Controller
 	
 	function spasial()
 	{
+		cek_login();
 		$potensi = $this->request->call('getSOAPPotensi', array($combo = 1) );
 		$potensi = json_decode($potensi,1);		
 		
@@ -380,25 +385,166 @@ class Main extends Controller
 	
 	function add_spasial()
 	{
-		$data['kecamatan'] = $kecamatan;
+		cek_login();
+		$requestKecamatan 	= $this->request->call('getSOAPKecamatan');
+		$kecamatan = json_decode($requestKecamatan,true);
+		
+		$potensi = $this->request->call('getSOAPPotensi', array($combo = "") );
+		$potensi = json_decode($potensi,1);
+		
+		
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
+		{
+			$this->form_validation->set_rules('id_potensi','Id Potensi','trim|required');
+			$this->form_validation->set_rules('nilai','Value','trim|required');
+			$this->form_validation->set_rules('latitude[]','Latitude','trim|required');
+			$this->form_validation->set_rules('longitude[]','Longitude','trim|required');
+			$this->form_validation->set_rules('alamat[]','Alamat','trim|required');
+			
+			if( $this->form_validation->run() == false )
+			{
+				$this->session->set_flashdata('_msg', error(validation_errors()));
+				redirect( site_url('main/add_spasial') );
+				exit();	
+			}
+			else
+			{
+				
+				$arr['id_potensi'] = $this->input->post('id_potensi');
+				$arr['id_kecamatan'] = (int)$this->kecamatan_id;
+				$arr['spasial_status'] = (int)$this->input->post('status');
+				$arr['spasial_value'] = (int)$this->input->post('nilai');
+				
+				$arrdata = json_encode($arr);
+				$request = $this->request->call('getSOAPInsertSpasial',array($arrdata));
+				$result = json_decode($request,true);
+				
+				#pr($result);
+				
+				$spasial_id = $result['id_spasial'];
+				if($spasial_id)
+				{
+					$marker = array();
+					if( isset($_POST['latitude']) and isset($_POST['longitude'])  )
+					{
+						if( count($_POST['latitude']) > 0 and count($_POST['longitude']) > 0 )
+						{
+							for($i=0;$i<count($_POST['latitude']);$i++)
+							{
+								if( $_POST['latitude'][$i] != '' and $_POST['longitude'][$i] != '' )
+								{
+									$marker[] = array('id_spasial' => $spasial_id,'latitude' => $_POST['latitude'][$i],'longitude' => $_POST['longitude'][$i],'alamat' => $_POST['alamat'][$i]);
+									
+								}
+							}
+							$marker = json_encode($marker);
+							$request = $this->request->call('getSOAPInsertMarker',array($marker));
+						}
+					}	
+					
+					$this->session->set_flashdata('_msg',$result['msg']);
+					redirect( site_url('main/add_spasial') );
+					exit();
+				}
+			}
+		}
+		
+	
+		$data['kecamatan'] = $kecamatan[$this->kecamatan_id];
 		$data['potensi'] = $potensi;
-		$data['result'] = $result;
-		$data['title'] = 'Data spasial';
-		$data['page'] = 'spasial';
+		$data['title'] = 'Tambah spasial';
+		$data['page'] = 'add_spasial';
 		$this->load->view('layout_main',$data);
 	}
 	
 	function edit_spasial()
 	{
+		cek_login();
 		$id = $this->uri->segment(3,0);
 		$marker = $this->request->call('getSOAPGetMarker', array($id) );
 		$marker = json_decode($marker,1);
 		
+		$spasial = $this->request->call('getSOAPSpasialById', array($id) );
+		$spasial = json_decode($spasial,1);
+		
+		$potensi = $this->request->call('getSOAPPotensi', array($combo = "") );
+		$potensi = json_decode($potensi,1);
+		
+		$requestKecamatan 	= $this->request->call('getSOAPKecamatan');
+		$kecamatan = json_decode($requestKecamatan,true);
+		
+		if( isset($_POST['save_data'])  or isset($_POST['ajax']) )
+		{
+			$this->form_validation->set_rules('id_potensi','Id Potensi','trim|required');
+			$this->form_validation->set_rules('nilai','Value','trim|required');
+			$this->form_validation->set_rules('latitude[]','Latitude','trim|required');
+			$this->form_validation->set_rules('longitude[]','Longitude','trim|required');
+			$this->form_validation->set_rules('alamat[]','Alamat','trim|required');
+			
+			if( $this->form_validation->run() == false )
+			{
+				$this->session->set_flashdata('_msg', error(validation_errors()));
+				redirect( site_url('main/edit_spasial/'.$id) );
+				exit();	
+			}
+			else
+			{
+				
+				$arr['id_potensi'] = $this->input->post('id_potensi');
+				$arr['id_kecamatan'] = (int)$this->kecamatan_id;
+				$arr['spasial_status'] = (int)$this->input->post('status');
+				$arr['spasial_value'] = (int)$this->input->post('nilai');
+				
+				$arrdata = json_encode($arr);
+				$request = $this->request->call('getSOAPUpdateSpasial',array($id,$arrdata));
+				$result = json_decode($request,true);
+				
+				pr($result);
+				
+				$spasial_id = $id;
+				$status = $result['status'];
+				if($status == 1)
+				{
+					$marker = array();
+					if( isset($_POST['latitude']) and isset($_POST['longitude'])  )
+					{
+						if( count($_POST['latitude']) > 0 and count($_POST['longitude']) > 0 )
+						{
+							$this->request->call('getSOAPDeleteMarker',array($spasial_id));
+							for($i=0;$i<count($_POST['latitude']);$i++)
+							{
+								if( $_POST['latitude'][$i] != '' and $_POST['longitude'][$i] != '' )
+								{
+									$marker[] = array('id_spasial' => $spasial_id,'latitude' => $_POST['latitude'][$i],'longitude' => $_POST['longitude'][$i],'alamat' => $_POST['alamat'][$i]);
+									
+								}
+							}
+							$marker = json_encode($marker);
+							$request = $this->request->call('getSOAPInsertMarker',array($marker));
+						}
+					}	
+					
+					$this->session->set_flashdata('_msg',$result['msg']);
+					redirect( site_url('main/edit_spasial/'.$id) );
+					exit();
+				}
+			}
+		}
+		
+		$data['result'] = $spasial;
+		$data['marker'] = $marker;
+		$data['spasial'] = $spasial;
+		$data['kecamatan'] = $kecamatan[$this->kecamatan_id];
+		$data['potensi'] = $potensi;
+		$data['title'] = 'Ubah data spasial';
+		$data['page'] = 'edit_spasial';
+		$this->load->view('layout_main',$data);
 		
 	}
 	
 	function delete_spasial()
 	{
+		cek_login();
 		$id = $this->uri->segment(3,0);
 		$request = $this->request->call('getSOAPDeleteSpasial',array($id));
 		$result = json_decode($request,true);
@@ -470,6 +616,91 @@ class Main extends Controller
 			return false;	
 		}
 		return true;
+	}
+	
+	function satuan()
+	{
+		$id  = $_POST['id'];
+		
+		#$this->db->where('id_potensi',$id);
+		#$run = $this->db->get('potensi') -> row_array();
+		
+		$request = $this->request->call('getSOAPPotensiById',array($id));
+		$run = json_decode($request,1);
+
+		if( $run['potensi_parent'] == 0 )
+		{
+			switch($id)
+			{
+				case '1':
+					$satuan = ' Ekor';
+				break;
+				case '2':
+					$satuan = ' Kilogram';
+				break;
+				case '3':
+					$satuan = ' Meter';
+				break;
+				case '4':
+					$satuan = ' Kilogram';
+				break;
+				case '5':
+					$satuan = ' Lokasi';
+				break;
+				case '6':
+					$satuan = ' Lokasi';
+				break;
+				case '8':
+					$satuan = ' SIUP';
+				break;
+				case '69':
+					$satuan = ' Lokasi';
+				break;
+				case '70':
+					$satuan = ' Lokasi';
+				break;	
+			}
+		}
+		else
+		{
+			#$this->db->where('id_potensi',$run['id_potensi']);
+			#$runs = $this->db->get('potensi') -> row_array();
+			
+			$request = $this->request->call('getSOAPPotensiById',array($run['id_potensi']));
+			$runs = json_decode($request,1);
+
+			switch($runs['potensi_parent'])
+			{
+				case '1':
+					$satuan = ' Ekor';
+				break;
+				case '2':
+					$satuan = ' Kilogram';
+				break;
+				case '3':
+					$satuan = ' Meter';
+				break;
+				case '4':
+					$satuan = ' Kilogram';
+				break;
+				case '5':
+					$satuan = ' Lokasi';
+				break;
+				case '6':
+					$satuan = ' Lokasi';
+				break;
+				case '8':
+					$satuan = ' SIUP';
+				break;
+				case '69':
+					$satuan = ' Lokasi';
+				break;
+				case '70':
+					$satuan = ' Lokasi';
+				break;	
+			}
+		}
+		echo $satuan;
 	}
 }
 

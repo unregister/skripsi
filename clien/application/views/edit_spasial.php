@@ -6,7 +6,7 @@ $(document).ready(function(){
 	});
 	
 	$('select[name="id_potensi"]').change(function(){
-		var u = '<?php echo site_url('admin/spasial/satuan');?>';
+		var u = '<?php echo site_url('main/satuan');?>';
 		var n = $(this).val();
 		$.post(u,{id:n},function(d){
 			$('.vl').html(d);
@@ -20,13 +20,13 @@ $(document).ready(function(){
 	
    <?php show_message();?>
 
-    <?php echo form_open( site_url('admin/spasial/edit/'.$result['id_spasial']), array('class' => 'form-horizontal') );?>
+    <?php echo form_open( site_url('main/edit_spasial/'.$result['id_spasial']), array('class' => 'form-horizontal') );?>
     <fieldset>
       <div class="control-group">
         <label for="focusedInput" class="control-label">Kecamatan</label>
         <div class="controls">
         <?php 
-			echo form_dropdown('id_kecamatan',$kecamatan,$result['id_kecamatan'] );
+			echo $kecamatan;
 		?>
         </div>
       </div>

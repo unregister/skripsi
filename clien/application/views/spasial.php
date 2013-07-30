@@ -1,4 +1,4 @@
-<a href="<?php echo site_url('admin/spasial/add');?>" class="btn btn-primary">Tambah spasial</a>
+<a href="<?php echo site_url('main/add_spasial');?>" class="btn btn-primary">Tambah spasial</a>
 <br />
 <br />
 <?php show_message(); ?>

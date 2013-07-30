@@ -184,18 +184,17 @@ function getSOAPInsertSpasial( $data )
 		return false;	
 	}
 	$data = json_decode($data,1);
-	if( array_keys($data) != 'marker' )
-	{
-		$insert = $ci->db->insert("person",$data);
-		if($insert){
-			$spasial_id = $ci->db->insert_id();
-			$arr = array("status"=>1,"msg"=>success("Data berhasil disimpan"));
-			return json_encode($arr);	
-		}else{
-			$arr = array("status"=>0,"msg"=>success("Data gagal disimpan"));
-			return json_encode($arr);	
-		}
+
+	$insert = $ci->db->insert("spasial",$data);
+	if($insert){
+		$spasial_id = $ci->db->insert_id();
+		$arr = array("status"=>1,"msg"=>success("Data berhasil disimpan"),"id_spasial" => $spasial_id);
+		return json_encode($arr);	
+	}else{
+		$arr = array("status"=>0,"msg"=>success("Data gagal disimpan"),"id_spasial" => NULL);
+		return json_encode($arr);	
 	}
+
 }
 
 function getSOAPDeleteSpasial($id)
@@ -218,4 +217,72 @@ function getSOAPGetMarker($id)
 	$ci->db->where("id_spasial",$id);
 	$result = $ci->db->get("marker") -> result_array();
 	return json_encode($result);
+}
+
+function getSOAPPotensiById( $id )
+{
+	$ci =& get_instance();
+	$ci->db->where("id_potensi",$id);
+	$result = $ci->db->get("potensi") -> row_array();
+	return json_encode($result);	
+}
+
+function getSOAPInsertMarker($arr_marker)
+{
+	$ci =& get_instance();
+	if( empty($arr_marker) ){
+		return false;	
+	}
+
+	$marker = json_decode($arr_marker,1);
+	if( !empty($marker) )
+	{
+		foreach((array)$marker as $m)
+		{
+			$sql = "INSERT INTO marker SET id_spasial = '".$m['id_spasial']."',latitude= '".$m['latitude']."',longitude='".$m['longitude']."',alamat='".$m['alamat']."'";
+			$ci->db->query($sql);
+		}
+	}
+
+}
+
+function getSOAPSpasialById( $spasial_id )
+{
+	$ci =& get_instance();
+	$ci->db->where("id_spasial",$spasial_id);
+	$result = $ci->db->get("spasial") -> row_array();
+	return json_encode($result);	
+}
+
+function getSOAPUpdateSpasial($spasial_id, $data )
+{
+	$ci =& get_instance();
+	if( empty($data) ){
+		return false;	
+	}
+	$data = json_decode($data,1);
+	$ci->db->where('id_spasial',$spasial_id);
+	$insert = $ci->db->update("spasial",$data);
+	if($insert){
+		$arr = array("status"=>1,"msg"=>success("Data berhasil disimpan"),"id_spasial" => $spasial_id);
+		return json_encode($arr);	
+	}else{
+		$arr = array("status"=>0,"msg"=>success("Data gagal disimpan"),"id_spasial" => NULL);
+		return json_encode($arr);	
+	}
+
+}
+
+function getSOAPDeleteMarker($id)
+{
+	$ci =& get_instance();
+	$ci->db->where("id_spasial",$id);
+	$delete = $ci->db->delete("marker");
+	if($delete){
+		$arr = array("status"=>1);
+		return json_encode($arr);	
+	}else{
+		$arr = array("status"=>0);
+		return json_encode($arr);	
+	}
 }

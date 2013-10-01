@@ -51,10 +51,10 @@
 		<div class="main-left-col">
 		
 			<ul class="side-nav">
-            	<li><a href="<?php echo site_url('main/dashboard');?>">Data person</a></li>
-                <li><a href="<?php echo site_url('main/add');?>">Tambah person</a></li>
+            	<li><a href="<?php echo site_url('main/dashboard');?>">Data penduduk</a></li>
+                <!--<li><a href="<?php echo site_url('main/add');?>">Tambah person</a></li> -->
                 <li><a href="<?php echo site_url('main/spasial');?>">Data spasial</a></li>
-                <li><a href="<?php echo site_url('main/add_spasial');?>">Tambah spasial</a></li>
+                <!--<li><a href="<?php echo site_url('main/add_spasial');?>">Tambah spasial</a></li> -->
                 <li><a href="<?php echo site_url('main/logout');?>">Logout</a></li>
             </ul>
 			

@@ -56,7 +56,7 @@ class Main extends Controller
 		
 		$data['kecamatan'] = json_decode($kecamatan,1);
 		$data['result'] = json_decode($result,1);
-		$data['title'] = 'Data Person';
+		$data['title'] = 'Data Penduduk';
 		$data['page'] = 'person';
 		$this->load->view('layout_main',$data);
 	}
@@ -181,7 +181,7 @@ class Main extends Controller
 		$data['pekerjaan'] 			= json_decode($requestPekerjaan,1);
 		$data['pendidikan'] 		= json_decode($requestPendidikan,1);
 		
-		$data['title'] = 'Tambah person';
+		$data['title'] = 'Tambah penduduk';
 		$data['page'] = 'add_person';
 		$this->load->view('layout_main',$data);
 	}
@@ -311,7 +311,7 @@ class Main extends Controller
 		$data['result']				= json_decode($requestPerson,1);
 		$data['id']					= $id;
 		
-		$data['title'] = 'Edit person';
+		$data['title'] = 'Edit penduduk';
 		$data['page'] = 'edit_person';
 		$this->load->view('layout_main',$data);
 	}
@@ -338,7 +338,7 @@ class Main extends Controller
 		$data['pendidikan'] 		= json_decode($requestPendidikan,1);
 		$data['result']				= json_decode($requestPerson,1);
 		
-		$data['title'] = 'Detail person';
+		$data['title'] = 'Detail penduduk';
 		$data['page'] = 'detail_person';
 		$this->load->view('layout_main',$data);
 	}
